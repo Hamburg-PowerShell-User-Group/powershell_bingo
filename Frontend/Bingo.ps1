@@ -49,7 +49,7 @@ function Get-BingoCard {
     )
 
     # Connect to server and request bingo card
-    $Uri = 'https://bingo.hhpsug.de/api/getUser?userId=' + $UserId
+    $Uri = 'https://bingo.hhpsug.de/api/getBingoCard?userId=' + $UserId
     $BingoCard = Invoke-RestMethod -Method Get -Uri $Uri
 
     # Output bingo card
@@ -192,7 +192,7 @@ function Invoke-BingoCheck {
 
             if ( $BingoCard.bingo_card.$Name[$i] -in $BingoCard.numbers ) {
                 $CorrectNumbers++
-                "$($Name)$($i) = $($BingoCard.bingo_card.$Name[$i]) - Treffer"
+                Write-Verbose "$($Name)$($i) = $($BingoCard.bingo_card.$Name[$i]) - Found"
             }
         }
 
@@ -215,7 +215,7 @@ function Invoke-BingoCheck {
 
                 if ( $BingoCard.bingo_card.$Name[$i] -in $BingoCard.numbers ) {
                     $CorrectNumbers++
-                    "$($Name)$($i) = $($BingoCard.bingo_card.$Name[$i]) - Treffer"
+                    Write-Verbose "$($Name)$($i) = $($BingoCard.bingo_card.$Name[$i]) - Found"
                 }
             }
 
