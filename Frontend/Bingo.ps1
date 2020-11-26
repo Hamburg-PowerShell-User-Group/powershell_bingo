@@ -80,8 +80,7 @@ function Write-Bingo {
     Write-Host 'Y88b. .d88P Y88..88P Y88..88P 888  888 d8b              '
     Write-Host ' "Y88888P"   "Y88P"   "Y88P"  888  888 88P              '
     Write-Host '                                       8P               '
-    Write-Host '                                       "                '
-    Write-Host '888    888               888                            '
+    Write-Host '888    888               888           "                '
     Write-Host '888    888               888                            '
     Write-Host '888888 88888b.   8888b.  888888 .d8888b         8888b.  '
     Write-Host '888    888 "88b     "88b 888    88K                "88b '
@@ -181,55 +180,14 @@ function Invoke-BingoCheck {
             ValueFromPipelineByPropertyName = $true,
             ValueFromPipeline = $true
         )]
-        $BingoCard
+        $UserId
     )
 
-    for ($i = 0; $i -lt 5; $i++) {
-        $CorrectNumbers = 0
-        # Check every column for five (5) matching numbers
-        foreach ($Name in $BingoCard.bingo_card.psobject.Properties.Name) {
-            Write-Verbose "$($Name)$($i) = $($BingoCard.bingo_card.$Name[$i])"
+    # Connect to server and request a validation
+    $Uri = 'https://bingo.hhpsug.de/api/validateBingoCard?userId=' + $UserId
+    $Bingo = Invoke-RestMethod -Method Get -Uri $Uri
 
-            if ( $BingoCard.bingo_card.$Name[$i] -in $BingoCard.numbers ) {
-                $CorrectNumbers++
-                Write-Verbose "$($Name)$($i) = $($BingoCard.bingo_card.$Name[$i]) - Found"
-            }
-        }
-
-        # Check if a total of five (5) matches was found
-        if ( $CorrectNumbers -eq 5 ) {
-            Write-Verbose "Oooh, thats a bingo!"
-            $Bingo = $true
-            Break
-        } else {
-            $Bingo = $false
-        }
-    }
-
-    if (-not $Bingo) {
-        foreach ($Name in $BingoCard.bingo_card.psobject.Properties.Name) {
-            $CorrectNumbers = 0
-            # Spalten validieren
-            for ($i = 0; $i -lt 5; $i++) {
-                Write-Verbose "$($Name)$($i) = $($BingoCard.bingo_card.$Name[$i])"
-
-                if ( $BingoCard.bingo_card.$Name[$i] -in $BingoCard.numbers ) {
-                    $CorrectNumbers++
-                    Write-Verbose "$($Name)$($i) = $($BingoCard.bingo_card.$Name[$i]) - Found"
-                }
-            }
-
-            # Check if a total of five (5) matches was found
-            if ( $CorrectNumbers -eq 5 ) {
-                Write-Verbose "Oooh, thats a bingo!"
-                $Bingo = $true
-                Break
-            } else {
-                $Bingo = $false
-            }
-        }
-    }
-
+    # Return result
     Return $Bingo
 }
 
@@ -261,8 +219,8 @@ function Invoke-Bingo {
         $BingoCard = Get-BingoCard -UserId $BingoUserId
 
         if ( $key.Character -eq "v" ) {
-            $Bingo = Invoke-BingoCheck -BingoCard $BingoCard
-            if ($Bingo) {
+            $Bingo = Invoke-BingoCheck -UserId $BingoUserId
+            if ($Bingo -eq "True") {
                 Write-Bingo -UserId $BingoUserId
                 Break
             }
