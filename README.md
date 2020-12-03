@@ -11,3 +11,5 @@ Das folgende [Script](https://raw.githubusercontent.com/Hamburg-PowerShell-User-
 ```PowerShell
 .\Bingo.ps1
 ```
+
+Den Rest machen wir im Meetup :wink:
