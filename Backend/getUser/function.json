@@ -1,0 +1,35 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "Request",
+      "methods": [
+        "get"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "Response"
+    },
+    {
+      "name": "userid",
+      "direction": "in",
+      "type": "cosmosDB",
+      "databaseName": "psbingo",
+      "collectionName": "user",
+      "connectionStringSetting": "psbingo_DOCUMENTDB",
+      "sqlQuery": "SELECT * FROM c WHERE c.id = {userid}"
+    },
+    {
+      "name": "numbers",
+      "direction": "in",
+      "type": "cosmosDB",
+      "databaseName": "psbingo",
+      "collectionName": "numbers",
+      "connectionStringSetting": "psbingo_DOCUMENTDB"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "Request",
+      "methods": [
+        "post"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "Response"
+    },
+    {
+      "name": "userout",
+      "direction": "out",
+      "type": "cosmosDB",
+      "databaseName": "psbingo",
+      "collectionName": "user",
+      "connectionStringSetting": "psbingo_DOCUMENTDB",
+      "partitionKey": "/id"
+    },
+    {
+      "name": "users",
+      "direction": "in",
+      "type": "cosmosDB",
+      "databaseName": "psbingo",
+      "collectionName": "user",
+      "connectionStringSetting": "psbingo_DOCUMENTDB"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "bindings": [
+    {
+      "authLevel": "function",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "Request",
+      "methods": [
+        "post"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "Response"
+    },
+    {
+      "name": "outNumber",
+      "direction": "out",
+      "type": "cosmosDB",
+      "databaseName": "psbingo",
+      "collectionName": "numbers",
+      "connectionStringSetting": "psbingo_DOCUMENTDB",
+      "partitionKey": "/id"
+    },
+    {
+      "name": "numbers",
+      "direction": "in",
+      "type": "cosmosDB",
+      "databaseName": "psbingo",
+      "collectionName": "numbers",
+      "connectionStringSetting": "psbingo_DOCUMENTDB"
+    }
+  ]
+}
